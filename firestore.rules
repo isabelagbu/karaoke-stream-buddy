@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner() {
+      return request.auth != null && request.auth.token.email == 'isabelagbu13@gmail.com';
+    }
+
+    match /songs/{songId} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+    match /notepadEntries/{entryId} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+  }
+}
